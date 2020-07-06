@@ -14,6 +14,7 @@ class locators(object):
     cnic = "//input[@id='customer_cnic']"
     save = "//span[contains(text(),'Save')]"
     notifi_message = "//li[contains(text(),'The account information has been saved.')]"
+    address = "//strong[contains(text(),'Address Book')]"
 
     mywish = "//div[@class='content-l']/ul/li[2]/a"
     nav2 = "//li[@class='last']/a"

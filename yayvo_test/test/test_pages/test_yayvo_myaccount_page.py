@@ -5,12 +5,6 @@ from selenium.webdriver.support import expected_conditions as EC
 
 
 
-class My_Account(object):
-
-    def __init__(self,driver):
-        self.driver = driver
-        wait = WebDriverWait(driver, 10)
-        self.message = wait.until(EC.element_to_be_clickable((By.XPATH, locators.notifi_message)))
 
 
 class account_button(object):

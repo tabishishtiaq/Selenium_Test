@@ -31,6 +31,7 @@ class account_information(object):
         wait =WebDriverWait(driver,10)
         self.acc_info = wait.until(EC.element_to_be_clickable((By.XPATH,locators.acc_info)))
 
+
 class form_info(object):
     def __init__(self,driver):
         self.driver = driver
@@ -41,4 +42,5 @@ class form_info(object):
         self.cntct_number = wait.until(EC.element_to_be_clickable((By.XPATH, locators.cont_nmbr)))
         self.cnic = wait.until(EC.element_to_be_clickable((By.XPATH, locators.cnic)))
         self.save_btn = wait.until(EC.element_to_be_clickable((By.XPATH, locators.save)))
+
 
