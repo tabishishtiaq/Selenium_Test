@@ -7,14 +7,21 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from yayvo_test.test.test_pageobject.test_locators import locators
 from yayvo_test.test_base.test_environment import EnvironmentSetup
-from yayvo_test.test.test_pages.yayvo_home_page import Home
-from yayvo_test.test.test_pages.yayvo_myaccount_page import My_Account
-from yayvo_test.test.test_pages.yayvo_myaccount_page import account_button
-from yayvo_test.test.test_pages.accont_page import account_information
-from yayvo_test.test.test_pages.accont_page import form_info
-from yayvo_test.test.test_pages.accont_page import checkout
-from yayvo_test.test.test_pages.accont_page import sub_account
-from yayvo_test.test.test_pages.accont_page import click
+from yayvo_test.test.test_pages.test_yayvo_home_page import Home
+from yayvo_test.test.test_pages.test_save_button import account_updating
+
+from yayvo_test.test.test_pages.test_yayvo_myaccount_page import account_button
+from yayvo_test.test.test_pages.test_accont_page import account_information
+from yayvo_test.test.test_pages.test_accont_page import form_info
+
+
+
+
+
+# from yayvo_test.test.test_pages.test_accont_page import checkout
+# from yayvo_test.test.test_pages.test_accont_page import sub_account
+# from yayvo_test.test.test_pages.test_accont_page import click
+
 import time
 
 
@@ -69,7 +76,6 @@ class yayvo_login_page(EnvironmentSetup):
 
         acc_button = account_button(driver)
 
-
         try:
             try:
 
@@ -112,15 +118,17 @@ class yayvo_login_page(EnvironmentSetup):
             except Exception as e:
                 print(str(e))
             try:
-                    if driver.title == "Account Information":
-                        self.assertEqual(driver.title, "Account Information")
-                        print(
-                            "User Successfully landed on Account Informartion page after clicking on Account Information Tab")
-                    else:
-                        print(
-                            "User Did not  landed on Account Informartion page after clicking on Account Information Tab")
+                if driver.title == "Account Information":
+                    self.assertEqual(driver.title, "Account Information")
+                    print(
+                        "User Successfully landed on Account Informartion page after clicking on Account Information Tab")
+                else:
+                    print(
+                        "User Did not  landed on Account Informartion page after clicking on Account Information Tab")
             except Exception as e:
-                print("User Did not  landed on Account Informartion page after clicking on Account Information Tab Due To :  " + str(e))
+                print(
+                    "User Did not  landed on Account Informartion page after clicking on Account Information Tab Due To :  " + str(
+                        e))
 
         except Exception as e:
             print("Account Information Tab Assertion Failed Due To : " + str(e))
@@ -163,7 +171,7 @@ class yayvo_login_page(EnvironmentSetup):
                 form.cntct_number.clear()
                 form.cntct_number.send_keys("923073207643")
             else:
-               print("Account Information Page Contact Number Field Assertion Is Failed")
+                print("Account Information Page Contact Number Field Assertion Is Failed")
         except Exception as e:
             print("Account Information Page Contact Number Field Assertion Is Failed Due To : " + str(e))
         try:
@@ -181,105 +189,111 @@ class yayvo_login_page(EnvironmentSetup):
                 self.assertEqual(form.save_btn.text, "Save")
                 print("Account Information Page Save Button Assertion Is Passed")
                 form.save_btn.click()
-
             else:
                 print("Account Information Page Save Button Assertion Is Failed")
         except Exception as e:
             print("Account Information Page Save Button Assertion Is Failed Due To : " + str(e))
 
-        account = My_Account(driver)
+        account = account_updating(driver)
         try:
-             if driver.title == "My Account":
-                 self.assertEqual(driver.title, "My Account")
-                 print("After Updating Account Information User Should Landed On My Account Page")
-             else:
-                 print("After Updating Account Information Assertion Is Passed User Should Landed On My Account Page")
+            if driver.title == "My Account":
+                self.assertEqual(driver.title, "My Account")
+                print("After Updating Account Information User Should Landed On My Account Page")
+            else:
+                print("After Updating Account Information Assertion Is Passed User Should Landed On My Account Page")
         except Exception as e:
-            print("After Updating Account Information Assertion Is Failed User Not Landed On My Account Page Due To : " + str(e))
+            print(
+                "After Updating Account Information Assertion Is Failed User Not Landed On My Account Page Due To : " + str(
+                    e))
+
         try:
-             if account.message.text == "The account information has been saved." :
-                 self.assertEqual(account.message.text, "The account information has been saved.")
-                 print("Account Information Updating Assertion Is Passed")
-             else:
+            if account.message.text == "The account information has been saved.":
+                self.assertEqual(account.message.text, "The account information has been saved.")
+                print("Account Information Updating Assertion Is Passed")
+            else:
                 print("Account Information Updating Assertion Is Failed")
         except Exception as e:
             print("Account Information Updating Assertion Is Failed Due To : " + str(e))
-        sub_acc = sub_account(driver)
-        try:
-            if sub_acc.wish.text == 'My Wishlist':
-                self.assertEqual(sub_acc.wish.text, "My Wishlist")
-                print("My Wishlist Assertion is Passed")
-                sub_acc.wish.click()
-
-            else:
-                print("My Wishlist Assertion is Failed")
-        except Exception as e:
-            print("My Wishlist Button Assertion is Failed Due to : " + str(e))
-
-        try:
-            driver.get("https://yayvo.com/wishlist/")
-            handles = driver.window_handles
-            for handle in handles:
-                driver.switch_to_window(handle)
-
-            if acc_button.navigate.text == "Asim":
-                self.assertEqual(acc_button.navigate.text, "Asim")
-                print("Asim Assertion is Passed")
-                acc_button.navigate.click()
-
-            else:
-                print("Asim Assertion is Failed")
-        except (StaleElementReferenceException) as e:
-            try:
-                wait = WebDriverWait(driver, 10)
-                self.navigate = wait.until(EC.element_to_be_clickable((By.XPATH, "//li[@class='last']/a")))
-                if self.navigate.text == "Asim":
-                    self.assertEqual(self.navigate.text, "Asim")
-                    print("Asim Assertion is Passed")
-                    self.navigate.click()
-
-                else:
-                    print("Asim Button Assertion is Failed")
-            except Exception as e:
-                print("Asim Button Assertion is Failed Due to : " + str(e))
-        check_btn = checkout(driver)
-        try:
-            if check_btn.check.text == 'Checkout':
-                self.assertEqual(check_btn.check.text, "Checkout")
-                print("Checkout Button  Assertion is Passed")
-                check_btn.check.click()
-
-                if driver.title == "Shopping Cart":
-                    self.assertEqual(driver.title, "Shopping Cart")
-                    print("Shopping Cart Page Title Assertion is Passed After Clicking on Checkout Button")
-                else:
-                    print("Shopping Cart Page Title Assertion is Failed After Clicking on Checkout Button")
 
 
-            else:
-                print("Checkout Button Assertion is Failed")
-        except Exception as e:
-            print("Checkout Button Assertion is Failed Due to : " + str(e))
-        cli = click(driver)
-        try:
-            if cli.click.text == "Click here":
-                self.assertEqual(cli.click.text, "Click here")
-                print("Click Here Field Assertion is Passed")
-                cli.click.click()
-            else:
-                print("Click Here Filed Assertion is Failed")
-            try:
-
-                if driver.title == "Online Shopping in Pakistan with Best Prices & Discounts | Yayvo.com":
-                    self.assertEqual(driver.title,
-                                     "Online Shopping in Pakistan with Best Prices & Discounts | Yayvo.com")
-                    print("Your Home Open Assertion is Successfully open Home Page After Clicking on Click Here Tag")
-                else:
-                    print(
-                        "Your Home Page Assertion is Unsuccessfully failed to open Home Page After Clicking on Click Here Tag ")
-            except Exception as e:
-                print("Your Home Open Assertion is Failed to open After Clicking on Click Here Tag" + str(e))
 
 
-        except Exception as e:
-            print("CLick Here Field Assertion Failed Due To : " + str(e))
+        # sub_acc = sub_account(driver)
+        # try:
+        #     if sub_acc.wish.text == 'My Wishlist':
+        #         self.assertEqual(sub_acc.wish.text, "My Wishlist")
+        #         print("My Wishlist Assertion is Passed")
+        #         sub_acc.wish.click()
+        #
+        #     else:
+        #         print("My Wishlist Assertion is Failed")
+        # except Exception as e:
+        #     print("My Wishlist Button Assertion is Failed Due to : " + str(e))
+        #
+        # try:
+        #     driver.get("https://yayvo.com/wishlist/")
+        #     handles = driver.window_handles
+        #     for handle in handles:
+        #         driver.switch_to_window(handle)
+        #
+        #     if acc_button.navigate.text == "Asim":
+        #         self.assertEqual(acc_button.navigate.text, "Asim")
+        #         print("Asim Assertion is Passed")
+        #         acc_button.navigate.click()
+        #
+        #     else:
+        #         print("Asim Assertion is Failed")
+        # except (StaleElementReferenceException) as e:
+        #     try:
+        #         wait = WebDriverWait(driver, 10)
+        #         self.navigate = wait.until(EC.element_to_be_clickable((By.XPATH, "//li[@class='last']/a")))
+        #         if self.navigate.text == "Asim":
+        #             self.assertEqual(self.navigate.text, "Asim")
+        #             print("Asim Assertion is Passed")
+        #             self.navigate.click()
+        #
+        #         else:
+        #             print("Asim Button Assertion is Failed")
+        #     except Exception as e:
+        #         print("Asim Button Assertion is Failed Due to : " + str(e))
+        # check_btn = checkout(driver)
+        # try:
+        #     if check_btn.check.text == 'Checkout':
+        #         self.assertEqual(check_btn.check.text, "Checkout")
+        #         print("Checkout Button  Assertion is Passed")
+        #         check_btn.check.click()
+        #
+        #         if driver.title == "Shopping Cart":
+        #             self.assertEqual(driver.title, "Shopping Cart")
+        #             print("Shopping Cart Page Title Assertion is Passed After Clicking on Checkout Button")
+        #         else:
+        #             print("Shopping Cart Page Title Assertion is Failed After Clicking on Checkout Button")
+        #
+        #
+        #     else:
+        #         print("Checkout Button Assertion is Failed")
+        # except Exception as e:
+        #     print("Checkout Button Assertion is Failed Due to : " + str(e))
+        # cli = click(driver)
+        # try:
+        #     if cli.click.text == "Click here":
+        #         self.assertEqual(cli.click.text, "Click here")
+        #         print("Click Here Field Assertion is Passed")
+        #         cli.click.click()
+        #     else:
+        #         print("Click Here Filed Assertion is Failed")
+        #     try:
+        #
+        #         if driver.title == "Online Shopping in Pakistan with Best Prices & Discounts | Yayvo.com":
+        #             self.assertEqual(driver.title,
+        #                              "Online Shopping in Pakistan with Best Prices & Discounts | Yayvo.com")
+        #             print("Your Home Open Assertion is Successfully open Home Page After Clicking on Click Here Tag")
+        #         else:
+        #             print(
+        #                 "Your Home Page Assertion is Unsuccessfully failed to open Home Page After Clicking on Click Here Tag ")
+        #     except Exception as e:
+        #         print("Your Home Open Assertion is Failed to open After Clicking on Click Here Tag" + str(e))
+        #
+        #
+        # except Exception as e:
+        #     print("CLick Here Field Assertion Failed Due To : " + str(e))
